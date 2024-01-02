@@ -11,6 +11,13 @@ void cat_file(const char *file_path)
         exit(1);
     }
 
+    static char cat_buffer[65536];
+
+    while(!feof(f)) {
+        size_t n = fread(cat_buffer, sizeof(cat_buffer[0]), sizeof(cat_buffer) / sizeof(cat_buffer[0]), f);
+        fwrite(cat_buffer, sizeof(cat_buffer), n, stdout);
+    }
+
     fclose(f);
 }
 
@@ -24,8 +31,6 @@ int main(int argc, char **argv)
     for (int i = 1; i < argc; i++) {
         cat_file(argv[i]);
     }
-
-
 
     return 0;
 }
